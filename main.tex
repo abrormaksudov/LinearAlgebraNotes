@@ -1,0 +1,443 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{datetime2}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable, skins}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{centernot}
+
+
+\newcommand{\startdate}{November 8, 2025}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+
+\title{Linear Algebra Notes}
+\author{Abror Maksudov}
+\date{Created: \startdate \\[7pt] Last Updated: \DTMnow}
+
+\everymath{\displaystyle}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+
+\section{Vectors}
+
+
+
+\subsection{Definition of a Scalar}
+\begin{tcolorbox}
+    A scalar is a \textbf{single number}, denoted as $a, b, c, \alpha, \beta, \gamma, \lambda, \mu$.
+    
+    \tcblower
+    \textit{Space Complexity}: $O(1)$ | \textit{Time Complexity}:  $N/A$.
+\end{tcolorbox}
+
+
+
+\subsection{Definition of a Vector}
+\begin{tcolorbox}
+    A vector is an \textbf{ordered list} of numbers, usually denoted as $\mathbf{v}$ or $\vec{v}$.
+
+    \begin{itemize}
+        \item \textbf{Column Vector (Default/Standard):}
+        $$
+        \vec{v} = \begin{bmatrix} v_1 \\ v_2 \\ \vdots \\ v_n \end{bmatrix} = \begin{pmatrix} v_1 \\ v_2 \\ \vdots \\ v_n \end{pmatrix} = \begin{bmatrix} v_1 & v_2 & \cdots & v_n \end{bmatrix}^T
+        $$
+
+        \item \textbf{Row Vector:}
+        $$
+        \vec{v} =  \begin{bmatrix} v_1 & v_2 & \cdots & v_n \end{bmatrix} = \begin{pmatrix} v_1 & v_2 & \cdots & v_n \end{pmatrix} = \begin{bmatrix} v_1 \\ v_2 \\ \vdots \\ v_n \end{bmatrix}^T
+        $$
+    \end{itemize}
+
+    \tcblower
+    \textit{Space Complexity}: $O(n)$ | \textit{Time Complexity}:  $N/A$.
+\end{tcolorbox}
+
+
+
+\subsection{Vector Operations}
+\begin{tcolorbox}
+    For vectors $\vec{u}, \vec{v} \in \mathbb{R}^n$, the following rules hold:
+    \begin{enumerate}
+        \item \textbf{Scalar Multiplication:}
+        $$
+        c\vec{v} = c\begin{bmatrix} v_1 \\ v_2 \\ \vdots \\ v_n \end{bmatrix} = \begin{bmatrix} cv_1 \\ cv_2 \\ \vdots \\ cv_n \end{bmatrix}
+        $$
+        
+        \item \textbf{Vector Addition:}
+        $$
+        \vec{u} + \vec{v} = \begin{bmatrix} u_1 \\ u_2 \\ \vdots \\ u_n \end{bmatrix} + \begin{bmatrix} v_1 \\ v_2 \\ \vdots \\ v_n \end{bmatrix} = \begin{bmatrix} u_1 + v_1 \\ u_2 + v_2 \\ \vdots \\ u_n + v_n \end{bmatrix}
+        $$
+        \emph{Requirement:} Both vectors must have the same dimension.
+        
+        \item \textbf{Vector Subtraction:}
+        $$
+        \vec{u} - \vec{v} = \vec{u} + (-1)\vec{v} = \begin{bmatrix} u_1 - v_1 \\ u_2 - v_2 \\ \vdots \\ u_n - v_n \end{bmatrix}
+        $$
+        \emph{Requirement:} Both vectors must have the same dimension.
+    \end{enumerate}
+    
+    \tcblower
+    \textit{Space Complexity}: $O(n)$ | \textit{Time Complexity}:  $O(n)$.
+\end{tcolorbox}
+
+
+
+\subsection{Properties of Vector}
+\begin{tcolorbox}
+    Let $\vec{u}, \vec{v}, \vec{w} \in \mathbb{R}^n$ and $c, d \in \mathbb{R}$. Then:
+    \[
+    \begin{aligned}
+        &\text{(1)} \quad \vec{u} + \vec{v} = \vec{v} + \vec{u} && \text{(Commutativity)} \\[8pt]
+        &\text{(2)} \quad (\vec{u} + \vec{v}) + \vec{w} = \vec{u} + (\vec{v} + \vec{w}) && \text{(Associativity)} \\[8pt]
+        &\text{(3)} \quad \vec{v} + \vec{0} = \vec{v} && \text{(Identity)} \\[8pt]
+        &\text{(4)} \quad \vec{v} + (-\vec{v}) = \vec{0} && \text{(Inverse)} \\[8pt]
+        &\text{(5)} \quad c(d\vec{v}) = (cd)\vec{v} && \text{(Associativity of scalars)} \\[8pt]
+        &\text{(6)} \quad 1 \cdot \vec{v} = \vec{v} && \text{(Multiplicative identity)} \\[8pt]
+        &\text{(7)} \quad c(\vec{u} + \vec{v}) = c\vec{u} + c\vec{v} && \text{(Distributivity over vectors)} \\[8pt]
+        &\text{(8)} \quad (c + d)\vec{v} = c\vec{v} + d\vec{v} && \text{(Distributivity over scalars)}
+    \end{aligned}
+    \]
+    These 8 axioms define a linear space (or vector space) in $\mathbb{R}^n.$
+\end{tcolorbox}
+
+
+
+\subsection{Linear Combinations}
+\begin{tcolorbox}
+    A vector $\vec{w} \in \mathbb{R}^n$ is a \textbf{linear combination} of vectors $\vec{v}_1, \vec{v}_2, \ldots, \vec{v}_k \in \mathbb{R}^n$ if there exist scalars $c_1, c_2, \ldots, c_k \in \mathbb{R}$ such that:
+    \[
+    \vec{w} = c_1\vec{v}_1 + c_2\vec{v}_2 + \cdots + c_k\vec{v}_k = \sum_{i=1}^{k} c_i\vec{v}_i = \begin{bmatrix} | & | & & | \\ \vec{v}_1 & \vec{v}_2 & \cdots & \vec{v}_k \\ | & | & & | \end{bmatrix} \begin{bmatrix} c_1 \\ c_2 \\ \vdots \\ c_k \end{bmatrix} = \vec{w}
+    \]
+    
+    The scalars $c_1, c_2, \ldots, c_k$ are called \textbf{coefficients} or \textbf{weights} of the linear combination.
+    
+    \tcblower
+    \textit{Space Complexity}: $O(n)$ | \textit{Time Complexity}: $O(nk)$.
+\end{tcolorbox}
+
+
+
+\subsection{Dot Product}
+
+\begin{tcolorbox}
+    The \textbf{dot product} of two vectors $\vec{u}, \vec{v} \in \mathbb{R}^n$ is a scalar defined as:
+    \[
+    \vec{u} \cdot \vec{v} = u_1v_1 + u_2v_2 + \cdots + u_nv_n = \sum_{i=1}^{n} u_iv_i
+    \]
+
+    \textbf{Geometric View:}
+    \[
+    \vec{u} \cdot \vec{v} = \|\vec{u}\| \|\vec{v}\| \cos\theta
+    \]
+    where $\theta$ is the angle between $\vec{u}$ and $\vec{v}$, and $\|\vec{u}\|$ is the \textbf{magnitude} (or \textbf{length} or \textbf{norm}) of $\vec{u}$. \\
+    
+    \textbf{Alternative notations:}
+    \[
+    \vec{u} \cdot \vec{v} = \langle \vec{u}, \vec{v} \rangle = \mathbf{u}^T\mathbf{v}
+    \]
+    
+    \textbf{Special Cases:}
+    \[
+    \begin{aligned}
+        &\text{(1)} \quad \vec{u} \cdot \vec{v} = 0 \iff \theta = 90^\circ && \text{(Perpendicular)} \\[8pt]
+        &\text{(2)} \quad \vec{u} \cdot \vec{v} > 0 \iff \theta < 90^\circ && \text{(Acute angle)} \\[8pt]
+        &\text{(3)} \quad \vec{u} \cdot \vec{v} < 0 \iff \theta > 90^\circ && \text{(Obtuse angle)} \\[8pt]
+        &\text{(4)} \quad \vec{u} \cdot \vec{u} = \|\vec{u}\|^2 \iff \theta = 0^\circ && \text{(Squared magnitude)} \\[8pt]
+    \end{aligned}
+    \]
+    
+    \tcblower
+    \textit{Space Complexity}: $O(1)$ | \textit{Time Complexity}: $O(n)$. \\
+    \textit{Note:} Highly optimized using SIMD (Single Instruction, Multiple Data) operations.
+\end{tcolorbox}
+
+
+
+\subsection{Properties of the Dot Product}
+\begin{tcolorbox}
+    Let $\vec{u}, \vec{v}, \vec{w} \in \mathbb{R}^n$ and $c \in \mathbb{R}$. Then:
+    \[
+    \begin{aligned}
+        &\text{(1)} \quad \vec{u} \cdot \vec{v} = \vec{v} \cdot \vec{u} && \text{(Commutativity)} \\[8pt]
+        &\text{(2)} \quad \vec{u} \cdot (\vec{v} + \vec{w}) = \vec{u} \cdot \vec{v} + \vec{u} \cdot \vec{w} && \text{(Distributivity)} \\[8pt]
+        &\text{(3)} \quad (c\vec{u}) \cdot \vec{v} = c(\vec{u} \cdot \vec{v}) = \vec{u} \cdot (c\vec{v}) && \text{(Scalar multiplication)} \\[8pt]
+        &\text{(4)} \quad \vec{u} \cdot \vec{u} \geq 0 && \text{(Positive definiteness)} \\[8pt]
+        &\text{(5)} \quad \vec{u} \cdot \vec{u} = 0 \iff \vec{u} = \vec{0} && \text{(Definiteness)} \\[8pt]
+        &\text{(6)} \quad \vec{0} \cdot \vec{v} = 0 && \text{(Zero vector)} \\[8pt]
+    \end{aligned}
+    \]
+
+    These properties define the dot product as an \textbf{inner product} on $\mathbb{R}^n$.
+    \tcblower
+    \textit{Space Complexity}: $O(1)$ | \textit{Time Complexity}: $O(n)$. \\
+\end{tcolorbox}
+
+
+
+\subsection{Cross Product}
+\begin{tcolorbox}
+    The \textbf{cross product} of two vectors $\vec{u}, \vec{v} \in \mathbb{R}^3$ is a vector $\vec{u} \times \vec{v} \in \mathbb{R}^3$ that is \textbf{perpendicular} to both $\vec{u}$ and $\vec{v}$ as is defined as:
+    \[
+    \vec{u} \times \vec{v} = \begin{bmatrix} u_2v_3 - u_3v_2 \\ u_3v_1 - u_1v_3 \\ u_1v_2 - u_2v_1 \end{bmatrix}
+    \]
+    
+    \tcblower
+    \textit{Note:} Cross product is only defined in $\mathbb{R}^3$ (and $\mathbb{R}^7$, but rarely used). \\
+    \textit{Space Complexity}: $O(1)$ | \textit{Time Complexity}: $O(1)$
+\end{tcolorbox}
+
+
+
+\subsection{Properties of the Cross Product}
+\begin{tcolorbox}
+    Let $\vec{u}, \vec{v}, \vec{w} \in \mathbb{R}^3$, $c \in \mathbb{R}$ and $\theta$ be the angle between $\vec{u}$ and $\vec{v}$. Then:
+    \[
+    \begin{aligned}
+        &\text{(1)} \quad \vec{u} \times \vec{v} = -(\vec{v} \times \vec{u}) && \text{(Anti-commutativity)} \\[8pt]
+        &\text{(2)} \quad \vec{u} \times (\vec{v} + \vec{w}) = \vec{u} \times \vec{v} + \vec{u} \times \vec{w} && \text{(Distributivity)} \\[8pt]
+        &\text{(3)} \quad (c\vec{u}) \times \vec{v} = c(\vec{u} \times \vec{v}) = \vec{u} \times (c\vec{v}) && \text{(Scalar multiplication)} \\[8pt]
+        &\text{(4)} \quad \vec{u} \times \vec{u} = \vec{0} && \text{(Self cross product)} \\[8pt]
+        &\text{(5)} \quad \vec{u} \times \vec{0} = \vec{0} \times \vec{u} = \vec{0} && \text{(Zero vector)} \\[8pt]
+        &\text{(6)} \quad \vec{u} \times \vec{v} = \vec{0} \iff \vec{u} \parallel \vec{v} && \text{(Parallel vectors)} \\[8pt]
+        &\text{(7)} \quad \vec{u} \cdot (\vec{u} \times \vec{v}) = 0, \quad \vec{v} \cdot (\vec{u} \times \vec{v}) = 0 && \text{(Orthogonality)} \\[8pt]
+        &\text{(8)} \quad \|\vec{u} \times \vec{v}\| = \|\vec{u}\| \|\vec{v}\| \sin\theta && \text{(Magnitude)} \\[8pt]
+    \end{aligned}
+    \]
+
+    \textbf{Warning:} The cross product is \textbf{not associative} in general: $\vec{u} \times (\vec{v} \times \vec{w}) \neq (\vec{u} \times \vec{v}) \times \vec{w}$.
+    
+    \tcblower
+    \textit{Space Complexity}: $O(1)$ | \textit{Time Complexity}: $O(1)$
+\end{tcolorbox}
+
+
+
+\subsection{Scalar Projection}
+\begin{tcolorbox}
+    Let $\vec{u}, \vec{v} \in\mathbb{R}^n$. Then, the \textbf{scalar (component) projection} of $\vec{u}$ onto $\vec{v}$ is the signed length of the projection:
+
+    \[
+    \text{comp}_{\vec{v}} \vec{u} = \frac{\vec{u} \cdot \vec{v}}{\|\vec{v}\|}
+    \]
+
+    \tcblower
+    \textit{Space Complexity}: $O(1)$ | \textit{Time Complexity}: $O(n)$.
+\end{tcolorbox}
+
+
+
+
+\subsection{Vector Projection}
+\begin{tcolorbox}
+    Let $\vec{u}, \vec{v} \in\mathbb{R}^n$. Then, the \textbf{vector projection} of $\vec{u}$ onto $\vec{v}$ is a vector in the direction of $\vec{v}$:
+    \[
+    \text{proj}_{\vec{v}} \vec{u} = \frac{\vec{u} \cdot \vec{v}}{\|\vec{v}\|^2} \vec{v} = \frac{\vec{u} \cdot \vec{v}}{\vec{v} \cdot \vec{v}} \vec{v} = \left(\text{comp}_{\vec{v}} \vec{u}\right) \frac{\vec{v}}{\|\vec{v}\|}
+    \]
+
+    \textbf{Orthogonal Component:}
+    
+    The component of $\vec{u}$ orthogonal to $\vec{v}$ is:
+    \[
+    \vec{u}_{\perp} = \vec{u} - \text{proj}_{\vec{v}} \vec{u}
+    \]
+    
+    Note that $\vec{u} = \text{proj}_{\vec{v}} \vec{u} + \vec{u}_{\perp}$ (orthogonal decomposition).
+    
+    \tcblower
+    \textit{Space Complexity}: $O(n)$ | \textit{Time Complexity}: $O(n)$.
+\end{tcolorbox}
+
+
+
+\subsection{Angle Between Vectors}
+\begin{tcolorbox}
+    The \textbf{angle} $\theta$ between two non-zero vectors $\vec{u}, \vec{v} \in \mathbb{R}^n$ is given by:
+    \[
+    \cos\theta = \frac{\vec{u} \cdot \vec{v}}{\|\vec{u}\| \|\vec{v}\|} \iff     \theta = \arccos\left(\frac{\vec{u} \cdot \vec{v}}{\|\vec{u}\| \|\vec{v}\|}\right), \quad 0 \leq \theta \leq \pi
+    \]
+
+    \textbf{Special Cases:}
+    \[
+    \begin{aligned}
+        &\text{(1)} \quad \theta = 0 \iff \vec{u} \text{ and } \vec{v} \text{ point in the same direction} && (\cos\theta = 1) \\[8pt]
+        &\text{(2)} \quad \theta = \frac{\pi}{2} \iff \vec{u} \perp \vec{v} && (\cos\theta = 0) \\[8pt]
+        &\text{(3)} \quad \theta = \pi \iff \vec{u} \text{ and } \vec{v} \text{ point in opposite directions} && (\cos\theta = -1) \\[8pt]
+    \end{aligned}
+    \]
+    
+    \tcblower
+    \textit{Note:} The formula $\vec{u} \cdot \vec{v} = \|\vec{u}\| \|\vec{v}\| \cos\theta$ is the geometric definition of the dot product. \\
+    \textit{Space Complexity}: $O(1)$ | \textit{Time Complexity}: $O(n)$
+\end{tcolorbox}
+
+
+
+\subsection{Cauchy-Schwarz Inequality}
+\begin{tcolorbox}
+    Let $\vec{u}, \vec{v} \in \mathbb{R}^n$. Then:
+    \[
+    |\langle \vec{u}, \vec{v}\rangle|^2 \leq \langle\vec{u}, \vec{u}\rangle \cdot \langle\vec{v}, \vec{v}\rangle,
+    \]
+    or,
+    \[
+    |\langle \vec{u}, \vec{v}\rangle|^2 \leq \norm{\vec{u}}^2 \norm{\vec{v}}^2 \iff |\langle \vec{u}, \vec{v}\rangle| =\norm{\vec{u}} \norm{\vec{v}} |\cos\theta| \leq \norm{\vec{u}} \norm{\vec{v}},
+    \]
+    or in component form,
+    \[
+    \left(\sum_{i=1}^{n} u_iv_i\right)^2 \leq \left(\sum_{i=1}^{n} u_i^2\right)\left(\sum_{i=1}^{n} v_i^2\right).
+    \]
+    Equality holds if and only if $\vec{u}$ and $\vec{v}$ are linearly dependent.
+    \tcblower
+    \textit{Space Complexity}: $O(1)$ | \textit{Time Complexity}: $O(n)$
+\end{tcolorbox}
+
+
+
+\subsection{Triangle Inequality}
+\begin{tcolorbox}
+    Let $\vec{u}, \vec{v} \in \mathbb{R}^n$. Then:
+    \[
+    \|\vec{u} + \vec{v}\| \leq \|\vec{u}\| + \|\vec{v}\|
+    \]
+    Equality holds if and only if $\vec{u} = c\vec{v}$ with $c \geq 0$. \\
+    \textbf{Reverse Triangle Inequality:}
+    \[
+    \big| \|\vec{u}\| - \|\vec{v}\| \big| \leq \|\vec{u} - \vec{v}\|
+    \]
+    
+    \tcblower
+    \textit{Space Complexity}: $O(1)$ | \textit{Time Complexity}: $O(n)$
+\end{tcolorbox}
+
+
+
+\subsection{Vectorization for Computational Efficiency}
+\begin{tcolorbox}
+    \textbf{Vectorization} is the process of replacing explicit loops with vector/matrix operations to achieve dramatic performance improvements by leveraging optimized, low-level linear algebra libraries and hardware parallelism. \\
+    
+    \textbf{Performance Example:}
+    \begin{center}
+    \begin{tabular}{l|c|c|c}
+        \hline
+        \textbf{Operation} & \textbf{Complexity} & \textbf{Loop (Python)} & \textbf{Vectorized (NumPy)} \\
+        \hline
+        Dot Product ($n=10^6$) & $O(n)$ & $\sim 500$ ms & $\sim 1$ ms \\
+        Matrix-Vector ($n \times n$) & $O(n^2)$ & $\sim 2000$ ms & $\sim 10$ ms \\
+        Matrix-Matrix ($n \times n$) & $O(n^3)$ & $\sim$ hours & $\sim$ seconds \\
+        \hline
+    \end{tabular}
+    \end{center}
+    
+    \textbf{Why Vectorization is Faster:}
+    \begin{enumerate}
+        \item \textbf{Hardware (SIMD):} Modern CPUs use \textbf{S}ingle \textbf{I}nstruction, \textbf{M}ultiple \textbf{D}ata (SIMD) instructions. This allows a single CPU instruction to perform the same operation (e.g., multiplication) on multiple data elements (e.g., 8 or 16 numbers) at the same time. Vectorized code uses these instructions automatically; Python loops do not.
+
+        \item \textbf{Cache Efficiency:} Vectorized operations access memory in large, contiguous blocks. This is very "cache-friendly" and avoids the high cost of fetching data from main memory (RAM) for each small step of a loop.
+        
+        \item \textbf{Optimized Libraries:} NumPy, PyTorch, and TensorFlow operations are thin wrappers around highly optimized libraries (like BLAS/LAPACK, MKL, cuBLAS) written in C or Fortran. These libraries have been fine-tuned for decades.
+    \end{enumerate}
+
+    \textbf{Space-Time Trade-off:}
+    \begin{itemize}
+        \item Loops: $O(1)$ extra space, slow
+        \item Vectorized: May need $O(n)$ temporary arrays, fast
+        \item \textit{Rule:} Memory is cheap, time is expensive
+    \end{itemize}
+\end{tcolorbox}
+
+
+
+\section{Matrices}
+
+
+
+\subsection{Definition of a Matrix}
+\begin{tcolorbox}[breakable]
+    A matrix is a \textbf{rectangular array} of numbers arranged in rows and columns, denoted as $A, B, C$ or $\mathbf{A}, \mathbf{B}, \mathbf{C}$. \\
+    
+    An $m \times n$ matrix $A$ has $m$ rows and $n$ columns:
+    \[
+    A = 
+    \begin{bmatrix}
+        a_{11} & a_{12} & \cdots & a_{1n} \\
+        a_{21} & a_{22} & \cdots & a_{2n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        a_{m1} & a_{m2} & \cdots & a_{mn}
+    \end{bmatrix}
+    =
+    \begin{pmatrix}
+        a_{11} & a_{12} & \cdots & a_{1n} \\
+        a_{21} & a_{22} & \cdots & a_{2n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        a_{m1} & a_{m2} & \cdots & a_{mn}
+    \end{pmatrix} 
+    = [a_{ij}]_{m \times n}
+    \]
+    
+    where $a_{ij}$ is the element in the $i$-th row and $j$-th column also denoted as $A_{ij}$. \\
+
+    \textbf{Notation:}
+    \begin{itemize}
+        \item $A \in \mathbb{R}^{m \times n}$ means $A$ is an $m \times n$ matrix with real entries
+        \item $(A)_{ij} = a_{ij}$ denotes the $(i,j)$-entry of matrix $A$
+        \item $m \times n$ is the \textbf{dimension} or \textbf{size} of the matrix
+    \end{itemize}
+    
+    \textbf{Special Cases:}
+    \[
+    \begin{aligned}
+        &\text{(1)} \quad m = n \implies A \text{ is a \textbf{square matrix}} \quad (n \times n) \\[8pt]
+        &\text{(2)} \quad m = 1 \implies A \text{ is a \textbf{row vector}} \quad (1 \times n) \\[8pt]
+        &\text{(3)} \quad n = 1 \implies A \text{ is a \textbf{column vector}} \quad (m \times 1) \\[8pt]
+        &\text{(4)} \quad m = n = 1 \implies A \text{ is a \textbf{scalar}} \quad (1 \times 1)\\[8pt]
+    \end{aligned}
+    \]
+
+    \textbf{Interpretations:}
+    Unlike vectors, matrices have multiple common interpretations:
+    
+    \begin{enumerate}
+        \item \textbf{As Data:} A way to store data in a grid.
+        
+        \item \textbf{As a Collection of Vectors:}
+        \[
+        \begin{array}{c@{\hspace{2cm}}c}
+        \begin{bmatrix}
+        | & | & & | \\
+        \vec{c}_1 & \vec{c}_2 & \cdots & \vec{c}_n \\
+        | & | & & |
+        \end{bmatrix}
+        &
+        \begin{bmatrix}
+        - & \vec{r}_1 & - \\
+        - & \vec{r}_2 & - \\
+        & \vdots & \\
+        - & \vec{r}_m & -
+        \end{bmatrix}
+        \\
+        \rule{0pt}{15pt}\text{Set of column vectors} &
+        \rule{0pt}{15pt}\text{Set of row vectors}
+        \end{array}
+        \]
+        
+        \item \textbf{As a Linear Transformation:} A function that "transforms" a vector $\vec{x}$ into a new vector $\vec{y}$ via matrix-vector multiplication ($\vec{y} = A\vec{x}$). The matrix can scale, rotate, or shear space.
+    \end{enumerate}
+    
+    \tcblower
+    \textit{Storage:} Matrices are typically stored in row-major or column-major order in memory. \\
+    \textit{Space Complexity}: $O(mn)$ | \textit{Time Complexity}: $O(1)$
+\end{tcolorbox}
+
+\end{document}

@@ -68,7 +68,7 @@
 
 \subsection{Vector Operations}
 \begin{tcolorbox}
-    For vectors $\vec{u}, \vec{v} \in \mathbb{R}^n$, the following rules hold:
+    For vectors $\vec{u}, \vec{v} \in \mathbb{R}^n$ and scalar $c \in \mathbb{R}$, the following rules hold:
     \begin{enumerate}
         \item \textbf{Scalar Multiplication:}
         $$
@@ -438,6 +438,339 @@
     \tcblower
     \textit{Storage:} Matrices are typically stored in row-major or column-major order in memory. \\
     \textit{Space Complexity}: $O(mn)$ | \textit{Time Complexity}: $O(1)$
+\end{tcolorbox}
+
+
+
+\subsection{Types of Matrices}
+\begin{tcolorbox}[breakable]
+    \begin{enumerate}
+        \item \textbf{Square Matrix:} $A \in \mathbb{R}^{n \times n}$ (number of rows = number of columns)
+        \[
+        A = \begin{bmatrix}
+            1 & 2 & 3 \\
+            4 & 5 & 6 \\
+            7 & 8 & 9
+        \end{bmatrix}_{3 \times 3}
+        \]
+
+        \item \textbf{Zero Matrix:} All entries are zero, denoted $O$ or $0_{m \times n}$
+        \[
+        O = \begin{bmatrix}
+            0 & 0 & 0 \\
+            0 & 0 & 0
+        \end{bmatrix}_{2 \times 3}
+        \]
+
+        \item \textbf{Identity Matrix:} Square matrix with ones on the main diagonal and zeros elsewhere, denoted $I$ or $I_n$
+        \[
+        I_3 = \begin{bmatrix}
+            1 & 0 & 0 \\
+            0 & 1 & 0 \\
+            0 & 0 & 1
+        \end{bmatrix}
+        \]
+        Formally: $(I_n)_{ij} = \delta_{ij} = \begin{cases} 1 & \text{if } i = j \\ 0 & \text{if } i \neq j \end{cases}$ (Kronecker delta function)
+
+
+
+        \item \textbf{Diagonal Matrix:} Square matrix with non-zero entries only on the main diagonal
+        \[
+        D = \begin{bmatrix}
+            d_1 & 0 & 0 \\
+            0 & d_2 & 0 \\
+            0 & 0 & d_3
+        \end{bmatrix} = \text{diag}(d_1, d_2, d_3)
+        \]
+    
+    
+        \item \textbf{Upper Triangular Matrix:} All entries below the main diagonal are zero
+        \[
+        U = \begin{bmatrix}
+            u_{11} & u_{12} & u_{13} \\
+            0 & u_{22} & u_{23} \\
+            0 & 0 & u_{33}
+        \end{bmatrix}
+        \]
+        Formally: $u_{ij} = 0$ for $i > j$
+    
+        \item \textbf{Lower Triangular Matrix:} All entries above the main diagonal are zero
+        \[
+        L = \begin{bmatrix}
+            l_{11} & 0 & 0 \\
+            l_{21} & l_{22} & 0 \\
+            l_{31} & l_{32} & l_{33}
+        \end{bmatrix}
+        \]
+        Formally: $l_{ij} = 0$ for $i < j$
+
+        \item \textbf{Symmetric Matrix:} Square matrix where $A = A^T$ (equal to its transpose)
+        \[
+        A = \begin{bmatrix}
+            1 & 2 & 3 \\
+            2 & 4 & 5 \\
+            3 & 5 & 6
+        \end{bmatrix}
+        \]
+        Formally: $a_{ij} = a_{ji}$ for all $i, j$
+    
+        \item \textbf{Skew-Symmetric Matrix:} Square matrix where $A = -A^T$
+        \[
+        A = \begin{bmatrix}
+            0 & 2 & -3 \\
+            -2 & 0 & 5 \\
+            3 & -5 & 0
+        \end{bmatrix}
+        \]
+        Formally: $a_{ij} = -a_{ji}$ for all $i, j$ (diagonal entries must be zero)
+    
+    
+        \item \textbf{Orthogonal Matrix:} Square matrix where $A^TA = AA^T = I$ (columns and rows are orthonormal)
+        
+        \item \textbf{Row Echelon Form (REF):} Matrix where:
+        \begin{itemize}
+            \item All nonzero rows are above any rows of all zeros
+            \item Leading entry (pivot) of each nonzero row is to the right of the leading entry of the row above it
+        \end{itemize}
+
+        \item \textbf{Reduced Row Echelon Form (RREF):} REF where:
+        \begin{itemize}
+            \item Each leading entry is 1
+            \item Each leading 1 is the only nonzero entry in its column
+        \end{itemize}
+        
+    \end{enumerate}
+
+    \tcblower
+    \textit{Note:} Special matrix types often have computational advantages (e.g., diagonal matrix multiplication is $O(n)$ instead of $O(n^3)$).
+\end{tcolorbox}
+
+
+
+\subsection{Matrix Operations}
+\begin{tcolorbox}[breakable]
+    For matrices $A, B \in \mathbb{R}^{m \times n}$, $\vec{x} \in \mathbb{R}^n$ and scalar $c \in \mathbb{R}$, the following rules hold::
+    \begin{enumerate}
+        \item \textbf{Scalar Multiplication:}
+        \[ (c A)_{ij} = c(a_{ij}) \]
+        \textit{Space Complexity}: $O(mn)$ | \textit{Time Complexity}: $O(mn)$.
+        
+        \item \textbf{Matrix Addition:}
+        \[ (A + B)_{ij} = a_{ij} + b_{ij} \]
+        \emph{Requirement:} Both matrices must have the same dimension. \\
+        \textit{Space Complexity}: $O(mn)$ | \textit{Time Complexity}: $O(mn)$.
+        
+        \item \textbf{Matrix Subtraction:}
+        \[ (A - B)_{ij} = a_{ij} - b_{ij} \]
+        \emph{Requirement:} Both matrices must have the same dimension. \\
+        \textit{Space Complexity}: $O(mn)$ | \textit{Time Complexity}: $O(mn)$.
+        
+        \item \textbf{Matrix Transpose:}
+        \[ (A^T)_{ij} = a_{ji} \]
+        \textit{Space Complexity}: $O(mn)$ | \textit{Time Complexity}: $O(mn)$.
+
+        \item \textbf{Matrix-Vector Multiplication:}
+        \[
+        \vec{y} = A\vec{x} \quad (A \in \mathbb{R}^{m \times n}:  \vec{x} \in \mathbb{R}^{n} \mapsto \vec{y} \in \mathbb{R}^{m})
+        \]
+        \textit{Space Complexity}: $O(m)$ | \textit{Time Complexity}: $O(mn)$.
+
+        \item \textbf{Matrix-Matrix Multiplication:}
+        \[
+        C = AB \quad (A \in \mathbb{R}^{m \times k}, B \in \mathbb{R}^{k \times n} \implies C \in \mathbb{R}^{m \times n})
+        \]
+        \textit{Space Complexity}: $O(mn)$ | \textit{Time Complexity}: $O(mnk)$. \\
+        \textit{Note:} For two $n \times n$ matrices, the time complexity is $O(n^3)$.
+    \end{enumerate}
+\end{tcolorbox}
+
+
+
+\subsection{Matrix-Vector Multiplication}
+\begin{tcolorbox}
+    The product of a matrix $A \in \mathbb{R}^{m \times n}$ and a column vector $\vec{x} \in \mathbb{R}^{n \times 1}$ results in a column vector $\vec{y} \in \mathbb{R}^{m \times 1}$ and is defined as:
+    \[
+    A\vec{x} = 
+    \begin{bmatrix}
+        a_{11} & a_{12} & \cdots & a_{1n} \\
+        a_{21} & a_{22} & \cdots & a_{2n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        a_{m1} & a_{m2} & \cdots & a_{mn}
+    \end{bmatrix}
+    \begin{bmatrix} 
+        x_1 \\ x_2 \\ \vdots \\ x_n 
+    \end{bmatrix} 
+    = 
+    \begin{bmatrix}
+        a_{11}x_1 + a_{12}x_2 + \cdots + a_{1n}x_n \\
+        a_{21}x_1 + a_{22}x_2 + \cdots + a_{2n}x_n \\
+        \vdots \\
+        a_{m1}x_1 + a_{m2}x_2 + \cdots + a_{mn}x_n
+    \end{bmatrix}
+    = \vec{y}.
+    \]
+    \emph{Requirement:} The number of columns in $A$ must equal the dimension of $\vec{x}$. \\
+    This operation can be interpreted in two essential ways:
+
+    \begin{enumerate}
+        \item \textbf{The "Row Picture" (Dot Product Method):} \\ 
+        Each entry of the output vector $\vec{y}$ is the \textbf{dot product} of the corresponding \textbf{row of $A$} with the vector $\vec{x}$.
+        \[
+        \begin{bmatrix}
+            - & \vec{r}_1 & - \\
+            - & \vec{r}_2 & - \\
+            & \vdots & \\
+            - & \vec{r}_m & -
+        \end{bmatrix}
+        \begin{bmatrix}
+            | \\ \vec{x} \\ |
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            \vec{r}_1 \cdot \vec{x} \\
+            \vec{r}_2 \cdot \vec{x} \\
+            \vdots \\
+            \vec{r}_m \cdot \vec{x}
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            y_1 \\ y_2 \\ \vdots \\ y_m
+        \end{bmatrix}
+        \]
+        This is the standard method used for manual computation.
+        
+        \item \textbf{The "Column Picture" (Linear Combination Method):} \\
+        The output vector $\vec{y}$ is a \textbf{linear combination} of the \textbf{columns of $A$}, where the \textbf{entries of $\vec{x}$ are the weights}.
+        \[
+        \begin{bmatrix}
+        | & | & & | \\
+        \vec{c}_1 & \vec{c}_2 & \cdots & \vec{c}_n \\
+        | & | & & |
+        \end{bmatrix}
+        \begin{bmatrix}
+        x_1 \\ x_2 \\ \vdots \\ x_n
+        \end{bmatrix}
+        = x_1 \begin{bmatrix} | \\ \vec{c}_1 \\ | \end{bmatrix} + x_2 \begin{bmatrix} | \\ \vec{c}_2 \\ | \end{bmatrix} + \cdots + x_n \begin{bmatrix} | \\ \vec{c}_n \\ | \end{bmatrix}
+        \]
+        This interpretation is more conceptual and is fundamental to understanding linear systems, column space, and rank.
+    
+    \end{enumerate}
+    
+    \tcblower
+    \textit{Space Complexity}: $O(m)$ | \textit{Time Complexity}: $O(mn)$
+\end{tcolorbox}
+
+
+
+\subsection{Matrix-Matrix Multiplication}
+\begin{tcolorbox}[breakable]
+    For matrices $A \in \mathbb{R}^{m \times k}$ and $B \in \mathbb{R}^{k \times n}$, the product $C = AB \in \mathbb{R}^{m \times n}$ is defined as:
+    \[
+    C = AB =
+    \begin{bmatrix}
+        a_{11} & a_{12} & \cdots & a_{1k} \\
+        a_{21} & a_{22} & \cdots & a_{2k} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        a_{m1} & a_{m2} & \cdots & a_{mk}
+    \end{bmatrix}
+    \begin{bmatrix}
+        b_{11} & b_{12} & \cdots & b_{1n} \\
+        b_{21} & b_{22} & \cdots & b_{2n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        b_{k1} & b_{k2} & \cdots & b_{kn}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        c_{11} & c_{12} & \cdots & c_{1n} \\
+        c_{21} & c_{22} & \cdots & c_{2n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        c_{m1} & c_{m2} & \cdots & c_{mn}
+    \end{bmatrix}
+    \]
+    where each entry is computed as:
+    \[
+    c_{ij} = \sum_{r=1}^{k} a_{ir}b_{rj} = a_{i1}b_{1j} + a_{i2}b_{2j} + \cdots + a_{ik}b_{kj}
+    \]
+    \emph{Requirement:} The number of columns in $A$ must equal the number of rows in $B$. \\
+    This operation can be interpreted in multiple ways:
+    
+    \begin{enumerate}
+        \item \textbf{The "Entry-wise" View (Dot Product Method):} \\
+        Each entry $c_{ij}$ of the product matrix $C$ is the \textbf{dot product} of the $i$-th \textbf{row of $A$} with the $j$-th \textbf{column of $B$}.
+        \[
+        c_{ij} = \text{(row $i$ of $A$)} \cdot \text{(column $j$ of $B$)} = \sum_{r=1}^{k} a_{ir}b_{rj}
+        \]
+        \[
+        \begin{bmatrix}
+        \cdots & \vec{r}_i & \cdots
+        \end{bmatrix}
+        \begin{bmatrix}
+        \vdots \\ \vec{c}_j \\ \vdots
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+        \ddots & \vdots & \\
+        \cdots & C_{ij} & \cdots \\
+         & \vdots & \ddots
+        \end{bmatrix}
+        \]
+        This is the standard computational method.
+        
+        \item \textbf{The "Column Picture":} \\
+        Each \textbf{column of $AB$} is a \textbf{linear combination of the columns of $A$}, with weights taken from the corresponding \textbf{column of} $B$.
+        \[
+        \text{col}_j(C) = A \cdot (\text{col}_j(B))
+        \]
+        \[
+        AB = A
+        \begin{bmatrix}
+            | & | & & | \\
+            \vec{b}_1 & \vec{b}_2 & \cdots & \vec{b}_n \\
+            | & | & & |
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            | & | & & | \\
+            A\vec{b}_1 & A\vec{b}_2 & \cdots & A\vec{b}_n \\
+            | & | & & |
+        \end{bmatrix}
+        \]
+        This view shows that every column of $AB$ must be in the column space of $A$.
+        
+        \item \textbf{The "Row Picture":} \\
+        Symmetrically, each \textbf{row of $AB$} is a \textbf{linear combination of the rows of $B$}, with weights taken from the corresponding \textbf{row of} $A$.
+        \[
+        \text{row}_i(C) = (\text{row}_i(A)) \cdot B
+        \]
+        \[
+        AB = 
+        \begin{bmatrix}
+            - & \vec{a}_1 & - \\
+            - & \vec{a}_2 & - \\
+            & \vdots & \\
+            - & \vec{a}_m & -
+        \end{bmatrix}
+        B
+        =
+        \begin{bmatrix}
+            - & \vec{a}_1 B & - \\
+            - & \vec{a}_2 B & - \\
+            & \vdots & \\
+            - & \vec{a}_m B & -
+        \end{bmatrix}
+        \]
+        This view shows that every row of $C$ must be in the row space of $B$.
+    \end{enumerate}
+    
+    \textbf{Identity Property:}
+    \[
+    AI_n = A, \quad I_mA = A
+    \]
+    where $I$ is the identity matrix of appropriate size.
+
+    \tcblower
+    \textit{Note:} Optimized algorithms like Strassen's can achieve $O(n^{2.807})$ for square matrices. Modern libraries use cache-optimized blocking and GPU parallelization for practical speedups. \\
+    \textit{Space Complexity}: $O(mn)$ | \textit{Time Complexity}: $O(mnk)$ (naive algorithm), $O(n^3)$ (for $n \times n$ matrices).
 \end{tcolorbox}
 
 \end{document}

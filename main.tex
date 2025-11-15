@@ -773,4 +773,83 @@
     \textit{Space Complexity}: $O(mn)$ | \textit{Time Complexity}: $O(mnk)$ (naive algorithm), $O(n^3)$ (for $n \times n$ matrices).
 \end{tcolorbox}
 
+
+
+\subsection{Properties of Matrix Operations}
+\begin{tcolorbox}[breakable]
+    \textbf{Addition and Scalar Multiplication Properties:} Let $A, B, C \in \mathbb{R}^{m \times n}$ and $c, d \in \mathbb{R}$. Then:
+    \[
+    \begin{aligned}
+        &\text{(1)} \quad A + B = B + A && \text{(Commutativity)} \\[8pt]
+        &\text{(2)} \quad (A + B) + C = A + (B + C) && \text{(Associativity)} \\[8pt]
+        &\text{(3)} \quad A + O = A && \text{(Additive Identity)} \\[8pt]
+        &\text{(4)} \quad A + (-A) = O && \text{(Additive Inverse)} \\[8pt]
+        &\text{(5)} \quad c(A + B) = cA + cB && \text{(Distributivity over Matrices)} \\[8pt]
+        &\text{(6)} \quad (c + d)A = cA + dA && \text{(Distributivity over Scalars)} \\[8pt]
+        &\text{(7)} \quad c(dA) = (cd)A && \text{(Associativity)} \\[8pt]
+        &\text{(8)} \quad 1 \cdot A = A && \text{(Scalar Identity)}
+    \end{aligned}
+    \]
+    
+    \textbf{Multiplication Properties:} Let $A \in \mathbb{R}^{m \times n}$, $B \in \mathbb{R}^{n \times p}$, $C \in \mathbb{R}^{p \times q}$, and $c \in \mathbb{R}$. Then:
+    \[
+    \begin{aligned}
+        &\text{(1)} \quad (AB)C = A(BC) && \text{(Associativity)} \\[8pt]
+        &\text{(2)} \quad A(B + C) = AB + AC && \text{(Left Distributivity)} \\[8pt]
+        &\text{(3)} \quad (A + B)C = AC + BC && \text{(Right DistributDivity)} \\[8pt]
+        &\text{(4)} \quad c(AB) = (cA)B = A(cB) && \text{(Scalar Associativity)} \\[8pt]
+        &\text{(5)} \quad AI_n = A \text{ and } I_mA = A && \text{(Multiplicative Identity)} \\[8pt]
+        &\text{(6)} \quad AO = O = OA && \text{(Zero Product)}
+    \end{aligned}
+    \]
+    
+    \textbf{Warning:} Matrix multiplication is \textbf{not commutative} in general.
+    \[
+    AB \neq BA
+    \]
+    
+    \tcblower
+    Time: $O(mn)$ for addition/scalar multiplication, $O(mnp)$ for multiplication | Space: Result size. \\
+    \textit{Computational Note:}
+    \begin{itemize}
+        \item \textbf{Associativity of Multiplication:} $O(mnk + mkl)$ vs $O(nkl + mnl)$. While $(AB)C$ and $A(BC)$ are mathematically equal, their computational cost can be vastly different. Choosing the optimal order is a key optimization problem (e.g., in deep learning backpropagation).
+        \item \textbf{Complexity:} Verifying additive properties is $O(mn)$. Verifying multiplicative properties is $O(n^3)$ (for $n \times n$ matrices).
+    \end{itemize}
+\end{tcolorbox}
+
+
+
+\subsection{Matrix Transpose}
+
+\begin{tcolorbox}
+    The \textbf{transpose} of a matrix $A \in \mathbb{R}^{m \times n}$ is the matrix $A^T \in \mathbb{R}^{n \times m}$ obtained by interchanging rows and columns:
+    \[
+    (A^T)_{ij} = a_{ji}
+    \]
+    \[
+    A = \begin{bmatrix} - & \vec{r}_1 & - \\ - & \vec{r}_2 & - \\ & \vdots & \end{bmatrix} \implies A^T = \begin{bmatrix} | & | & & | \\ \vec{r}_1^T & \vec{r}_2^T & \cdots & \\ | & | & & | \end{bmatrix}.
+    \]
+    That is, the $i$-th row of $A$ becomes the $i$-th column of $A^T$. \\
+    
+    
+    \textbf{For vectors:} A column vector becomes a row vector, and vice versa:
+    \[
+    \vec{v} = \begin{bmatrix} v_1 \\ v_2 \\ v_3 \end{bmatrix} \quad \implies \quad \vec{v}^T = \begin{bmatrix} v_1 & v_2 & v_3 \end{bmatrix}
+    \]
+    This is why $\vec{u} \cdot \vec{v} = \vec{u}^T\vec{v}$ (dot product as matrix multiplication).
+
+    \textbf{Special Cases:}
+    \[
+    \begin{aligned}
+        &\text{(1)} \quad A = A^T \iff A && \text{(Symmetric)} \\[8pt]
+        &\text{(2)} \quad A = -A^T \iff A && \text{(Skew-symmetric)} \\[8pt]
+        &\text{(3)} \quad (A^T)^T = A && \text{(Double transpose)} \\[8pt]
+        &\text{(4)} \quad \vec{u} \cdot \vec{v} = \vec{u}^T\vec{v} && \text{(Dot Product as Matrix Multiplication)}
+    \end{aligned}
+    \]
+    
+    \tcblower
+    \textit{Space Complexity}: $O(mn)$ | \textit{Time Complexity}: $O(mn)$.
+\end{tcolorbox}
+
 \end{document}

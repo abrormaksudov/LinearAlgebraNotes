@@ -820,7 +820,6 @@
 
 
 \subsection{Matrix Transpose}
-
 \begin{tcolorbox}
     The \textbf{transpose} of a matrix $A \in \mathbb{R}^{m \times n}$ is the matrix $A^T \in \mathbb{R}^{n \times m}$ obtained by interchanging rows and columns:
     \[
@@ -850,6 +849,419 @@
     
     \tcblower
     \textit{Space Complexity}: $O(mn)$ | \textit{Time Complexity}: $O(mn)$.
+\end{tcolorbox}
+
+
+
+\subsection{Properties of Transpose}
+\begin{tcolorbox}[breakable]
+    Let $A, B$ be matrices of compatible dimensions and $c \in \mathbb{R}$. Then:
+    \[
+    \begin{aligned}
+        &\text{(1)} \quad (A^T)^T = A && \text{(Double Transpose/Involution)} \\[8pt]
+        &\text{(2)} \quad (A + B)^T = A^T + B^T && \text{(Additivity)} \\[8pt]
+        &\text{(3)} \quad (cA)^T = cA^T && \text{(Scalar Multiplication)} \\[8pt]
+        &\text{(4)} \quad (AB)^T = B^TA^T && \text{(Reversal Rule)} \\[8pt]
+        &\text{(5)} \quad (A_1A_2 \cdots A_k)^T = A_k^T \cdots A_2^T A_1^T && \text{(Extended Reversal)} \\[8pt]
+        &\text{(6)} \quad (\vec{u}^T\vec{v})^T = \vec{v}^T\vec{u} = \vec{u}^T\vec{v} && \text{(Dot Product Symmetry)}
+    \end{aligned}
+    \]
+    \textbf{Transpose of the Identity Matrix:}
+    \[
+    I^T = I
+    \]
+    \textbf{Transpose Preserves Rank:}
+    \[
+    \operatorname{rank}(A^T) = \operatorname{rank}(A)
+    \]
+    \textbf{Transpose and Inverse:}
+    If $A$ is invertible, then $A^T$ is also invertible, and:
+    \[
+    (A^T)^{-1} = (A^{-1})^T
+    \]
+\end{tcolorbox}
+
+
+
+\subsection{Symmetric and Skew-Symmetric Matrices}
+\begin{tcolorbox}[breakable]
+    These are special types of square matrices defined by their relationship with their own transpose. \\
+    
+    \textbf{Symmetric Matrix:} A square matrix $A \in \mathbb{R}^{n \times n}$ is \textbf{symmetric} if it is equal to its transpose.
+    \[
+    A \text{ is symmetric} \iff A = A^T \iff a_{ij} = a_{ji} \quad \forall i, j
+    \]
+    
+    \textbf{Skew-Symmetric Matrix:} A square matrix $A \in \mathbb{R}^{n \times n}$ is \textbf{skew-symmetric} (or \textbf{anti-symmetric}) if it is equal to the negative of its transpose
+    \[
+    A \text{ is skew-symmetric} \iff A = -A^T \iff a_{ij} = -a_{ji} \quad \forall i, j
+    \]
+    Note: This implies $a_{ii} = 0$ (diagonal entries must be zero). \\
+
+    \textbf{Decomposition Theorem:} Any square matrix $A \in \mathbb{R}^{n \times n}$ can be \textbf{uniquely} decomposed as:
+    \[
+    A = \underbrace{\frac{A + A^T}{2}}_{\text{Symmetric part } S} + \underbrace{\frac{A - A^T}{2}}_{\text{Skew-symmetric part } K}
+    \]
+    
+    \textbf{Key Properties:}
+    \begin{enumerate}
+        \item A symmetric matrix must be square
+        \item A skew-symmetric matrix must have zeros on the diagonal
+        \item $A^TA$ is always symmetric (Gram matrix)
+        \item $AA^T$ is always symmetric (Covariance structure)
+        \item $\vec{x}^TA\vec{x} = \vec{x}^TA^T\vec{x}$ for symmetric $A$ (Quadratic form)
+        \item Any square matrix $A$ can be uniquely expressed as the sum of a symmetric matrix $S$ and a skew-symmetric matrix $K$:
+        \[
+        A = S + K
+        \]
+        \item If $A$ and $B$ are symmetric and commute ($AB = BA$), then $AB$ is symmetric
+        \item The eigenvalues of a real symmetric matrix are real
+        \item The eigenvalues of a real skew-symmetric matrix are purely imaginary or zero
+    \end{enumerate}
+
+    Tip: Symmetric = Scaling, Skew-symmetric = Rotation. \\
+
+    \textbf{Special Property for Skew-Symmetric:}
+    \[
+    \det(K) = 0 \text{ if } n \text{ is odd}, \quad \det(K) \geq 0 \text{ if } n \text{ is even}
+    \]
+    
+    \tcblower
+    \textit{Space Complexity}: $\frac{n(n+1)}{2}$ | \textit{Time Complexity}: $O(n^2)$.
+\end{tcolorbox}
+
+
+
+\subsection{Trace of a Matrix}
+\begin{tcolorbox}[breakable]
+    The \textbf{trace} of a square matrix $A \in \mathbb{R}^{n \times n}$, denoted $\text{tr}(A)$, is the \textbf{sum of its diagonal entries}:
+    \[
+    \text{tr}(A) = \sum_{i=1}^{n} a_{ii} = a_{11} + a_{22} + \cdots + a_{nn}
+    \]
+    
+    \textbf{Example:}
+    \[
+    A = \begin{bmatrix}
+        \mathbf{1} & 2 & 3 \\
+        4 & \mathbf{5} & 6 \\
+        7 & 8 & \mathbf{9}
+    \end{bmatrix} \implies \text{tr}(A) = 1 + 5 + 9 = 15
+    \]
+    
+    \textbf{Important Note:} Trace is \textbf{only defined for square matrices}. For non-square matrices, the concept is undefined. \\
+
+    \textbf{Properties:} Let $A, B \in \mathbb{R}^{n \times n}$ and $c \in \mathbb{R}$
+    \[
+    \begin{aligned}
+        &\text{(1)} \quad \text{tr}(A + B) = \text{tr}(A) + \text{tr}(B) && \text{(Additivity)} \\[8pt]
+        &\text{(2)} \quad \text{tr}(cA) = c \cdot \text{tr}(A) && \text{(Homogeneity)} \\[8pt]
+        &\text{(3)} \quad \text{tr}(A^T) = \text{tr}(A) && \text{(Transpose Invariance)} \\[8pt]
+        &\text{(4)} \quad \text{tr}(AB) = \text{tr}(BA) && \text{(Cyclic Property)} \\[8pt]
+        &\text{(5)} \quad \text{tr}(ABC) = \text{tr}(CAB) = \text{tr}(BCA) && \text{(Extended Cyclic)} \\[8pt]
+        &\text{(6)} \quad \text{tr}(I_n) = n && \text{(Identity Trace)} \\[8pt]
+        &\text{(7)} \quad \text{tr}(\vec{u}\vec{v}^T) = \vec{u}^T\vec{v} = \vec{v}^T\vec{u} && \text{(Outer Product)}
+    \end{aligned}
+    \]
+    
+    Properties (1) and (2) show that trace is a \textbf{linear functional} (or linear operator) on the space of matrices. \\
+    \textit{Note on (4):} Even though $AB \neq BA$ in general, their traces are equal. \\
+
+    \textbf{Special Identities:}
+    \begin{enumerate}
+        \item $\text{tr}(A^TA) = \text{tr}(AA^T) = \sum_{i,j} a_{ij}^2 = \|A\|_F^2$ (Frobenius norm squared/Matrix magnitude)
+        \item $\text{tr}(\vec{x}\vec{x}^T) = \vec{x}^T\vec{x} = \|\vec{x}\|^2$ (Vector norm)
+    \end{enumerate}
+    
+    \textbf{Relationship to Eigenvalues:} For a matrix $A$ with eigenvalues $\lambda_1, \lambda_2, \ldots, \lambda_n$:
+    \[
+    \text{tr}(A) = \sum_{i=1}^{n} \lambda_i
+    \]
+    This is a fundamental result connecting diagonal entries to spectral properties (covered in detail in eigenvalue section).
+    
+    \tcblower
+    \textit{Space Complexity}: $O(1)$ | \textit{Time Complexity}: $O(n)$.
+\end{tcolorbox}
+
+
+
+\subsection{Relationship Between Trace and Eigenvalues}
+\begin{tcolorbox}[breakable]
+    For any square matrix $A \in \mathbb{R}^{n \times n}$, the \textbf{trace} of $A$ is equal to the \textbf{sum of all its eigenvalues} ($\lambda_1, \lambda_2, \dots, \lambda_n$):
+    
+    \[
+    \text{tr}(A) = \sum_{i=1}^{n} \lambda_i = \lambda_1 + \lambda_2 + \cdots + \lambda_n
+    \]
+    This holds \textbf{regardless of whether $A$ is diagonalizable}.
+    
+    \textit{Notes:}
+    \begin{itemize}
+        \item The eigenvalues $\lambda_i$ are the roots of the characteristic polynomial of $A$.
+        \item This property holds even if the eigenvalues are repeated (counted with their algebraic multiplicity) or are complex numbers (for $A \in \mathbb{C}^{n \times n}$).
+    \end{itemize}
+    
+    \textbf{Companion Result (Determinant):}
+    \[
+    \det(A) = \prod_{i=1}^{n} \lambda_i = \lambda_1 \cdot \lambda_2 \cdots \lambda_n
+    \]
+    
+    Together, these provide powerful invariants of a matrix under similarity transformations.
+    
+    \textbf{Proof via Characteristic Polynomial:}
+    
+    The characteristic polynomial of $A$ is:
+    \[
+    p(\lambda) = \det(\lambda I - A) = \lambda^n + c_{n-1}\lambda^{n-1} + \cdots + c_1\lambda + c_0
+    \]
+    
+    By the fundamental theorem of algebra, this factors as:
+    \[
+    p(\lambda) = (\lambda - \lambda_1)(\lambda - \lambda_2) \cdots (\lambda - \lambda_n)
+    \]
+    
+    Expanding and comparing coefficients:
+    \[
+    \begin{aligned}
+        &\text{Coefficient of } \lambda^{n-1}: \quad c_{n-1} = -(\lambda_1 + \lambda_2 + \cdots + \lambda_n) \\[8pt]
+        &\text{Constant term}: \quad c_0 = (-1)^n \lambda_1 \lambda_2 \cdots \lambda_n = (-1)^n \det(A)
+    \end{aligned}
+    \]
+    
+    From the definition of characteristic polynomial, $c_{n-1} = -\text{tr}(A)$, thus:
+    \[
+    \text{tr}(A) = \sum_{i=1}^{n} \lambda_i
+    \]
+    
+    \textbf{Key Properties:}
+    \[
+    \begin{aligned}
+        &\text{(1)} \quad \text{tr}(A^k) = \sum_{i=1}^{n} \lambda_i^k && \text{(Powers of eigenvalues)} \\[8pt]
+        &\text{(2)} \quad \text{tr}(P^{-1}AP) = \text{tr}(A) && \text{(Similarity invariance)} \\[8pt]
+        &\text{(3)} \quad \text{tr}(e^A) = \sum_{i=1}^{n} e^{\lambda_i} && \text{(Matrix exponential)} \\[8pt]
+        &\text{(4)} \quad \text{tr}(A^{-1}) = \sum_{i=1}^{n} \lambda_i^{-1} && \text{(Inverse, if exists)} \\[8pt]
+        &\text{(5)} \quad \text{tr}(A) = 0 \centernot\implies \lambda_i = 0 && \text{(Zero trace doesn't imply zero eigenvalues)}
+    \end{aligned}
+    \]
+    
+    Property (2) is crucial: similar matrices (representing the same linear transformation in different bases) have the same trace and eigenvalues.
+    
+    \textbf{Example:}
+    \[
+    A = \begin{bmatrix}
+        2 & 1 \\
+        1 & 2
+    \end{bmatrix}
+    \]
+    Eigenvalues: $\lambda_1 = 3, \lambda_2 = 1$ (verify: $\det(\lambda I - A) = (\lambda - 3)(\lambda - 1) = 0$)
+    \[
+    \text{tr}(A) = 2 + 2 = 4 = 3 + 1 = \lambda_1 + \lambda_2 \quad \checkmark
+    \]
+    \[
+    \det(A) = 4 - 1 = 3 = 3 \cdot 1 = \lambda_1 \lambda_2 \quad \checkmark
+    \]
+    
+    \textbf{Geometric Interpretation:}
+    \begin{itemize}
+        \item \textbf{Trace:} Measures total "stretching" along all eigendirections. Sum of scaling factors.
+        \item \textbf{Determinant:} Measures volume distortion. Product of scaling factors.
+        \item For rotation matrices (orthogonal), eigenvalues lie on unit circle: $|\lambda_i| = 1$, so $\text{tr}(Q) \leq n$ with equality for identity.
+    \end{itemize}
+    
+    
+    \textbf{Special Cases:}
+    \[
+    \begin{aligned}
+        &\text{Diagonal matrix:} \quad D = \text{diag}(d_1, \ldots, d_n) \implies \lambda_i = d_i, \quad \text{tr}(D) = \sum d_i \\[8pt]
+        &\text{Triangular matrix:} \quad \text{Eigenvalues are diagonal entries} \\[8pt]
+        &\text{Symmetric matrix:} \quad \text{All eigenvalues real, orthogonal eigenvectors} \\[8pt]
+        &\text{Orthogonal matrix:} \quad |\lambda_i| = 1, \quad \text{tr}(Q) = \sum \lambda_i \text{ (complex sum)}
+    \end{aligned}
+    \]
+\end{tcolorbox}
+
+
+
+\subsection{Powers of Matrices}
+\begin{tcolorbox}[breakable]
+    For a square matrix $A \in \mathbb{R}^{n \times n}$ and a non-negative integer $k$, the \textbf{power} $A^k$ is defined as the matrix $A$ multiplied by itself $k$ times:
+    
+    \textbf{Definition:}
+    \[
+    A^k = \underbrace{A \cdot A \cdot \ldots \cdot A}_{k \text{ times}}
+    \]
+    
+    \textbf{Recursive Definition:}
+    \[
+    A^k = A \cdot A^{k-1} \quad \text{for } k \geq 1
+    \]
+    
+    \emph{Requirement:} Powers are only defined for \textbf{square matrices}, as the dimensions must be compatible for repeated multiplication ($n \times n$ times $n \times n$).
+    
+    \textbf{Special Cases:}
+    \[
+    \begin{aligned}
+        &\text{(1)} \quad A^0 = I && \text{(Identity, by convention)} \\[8pt]
+        &\text{(2)} \quad A^1 = A && \text{(First power)} \\[8pt]
+        &\text{(3)} \quad A^{-k} = (A^{-1})^k = (A^k)^{-1} && \text{(Negative powers, if $A$ invertible)} \\[8pt]
+        &\text{(4)} \quad (cA)^k = c^k A^k && \text{(Scalar multiplication)}
+    \end{aligned}
+    \]
+    
+    \textbf{Fundamental Properties:}
+    \[
+    \begin{aligned}
+        &\text{(1)} \quad A^m A^n = A^{m+n} && \text{(Exponent addition)} \\[8pt]
+        &\text{(2)} \quad (A^m)^n = A^{mn} && \text{(Exponent multiplication)} \\[8pt]
+        &\text{(3)} \quad (A^T)^k = (A^k)^T && \text{(Transpose commutes)} \\[8pt]
+        &\text{(4)} \quad (A^{-1})^k = (A^k)^{-1} && \text{(Inverse commutes)} \\[8pt]
+        &\text{(5)} \quad AB = BA \implies (AB)^k = A^k B^k && \text{(Commuting matrices only)} \\[8pt]
+        &\text{(6)} \quad \text{tr}(A^k) = \sum_{i=1}^{n} \lambda_i^k && \text{(Trace of power)}
+    \end{aligned}
+    \]
+    
+    \textbf{Warning:} In general, $(AB)^k \neq A^k B^k$ unless $AB = BA$.
+    
+    \textbf{Computational Methods:}
+    
+    \begin{enumerate}
+        \item \textbf{Naive Repeated Multiplication:} 
+        $$A^k = A \cdot A \cdot A \cdots A \quad (k-1 \text{ multiplications}) - O(kn^3)$$
+
+        \item \textbf{Binary Exponentiation (Repeated Squaring):} 
+        $$A^{13} = A^8 \cdot A^4 \cdot A^1 - O(n^3 \log k)$$
+        
+        \item \textbf{Diagonalization Method (Best for multiple powers):} 
+        $$\textstyle A^k = (PDP^{-1})^k = PD^kP^{-1} - O(n^3)$$
+    \end{enumerate}
+    
+    \tcblower
+    \textit{Space Complexity}: $O(n^2)$ | \textit{Time Complexity}: $O(kn^3)\ |\ O(n^3 \log k)\ |\ O(n^3)$.
+\end{tcolorbox}
+
+
+
+\subsection{Elementary Matrices}
+\begin{tcolorbox}[breakable]
+
+    An \textbf{elementary matrix} ($E$) is a matrix is obtained by performing a \textbf{single elementary row operation} on the identity matrix ($I$). \\
+
+    \textbf{Three Types of Elementary Matrices:}
+    
+    \begin{enumerate}
+        \item \textbf{Type I — Row Swap:} $E_{ij}$ swaps rows $i$ and $j$
+        \[
+        I = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} \xrightarrow{R_1 \leftrightarrow R_2} E_{12} = \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix} \quad \text{(swaps rows 1 and 2)}
+        \]
+        
+        \item \textbf{Type II — Row Scaling:} $E_i(c)$ multiplies row $i$ by non-zero scalar $c$
+        \[
+        I = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} \xrightarrow{5R_1 \to R_1} E_2(5) = \begin{bmatrix} 1 & 0 \\ 0 & 5 \end{bmatrix} \quad \text{(scales row 2 by 5)}
+        \]
+        
+        \item \textbf{Type III — Row Addition:} $E_{ij}(c)$ adds $c$ times row $j$ to row $i$
+        \[
+        I = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} \xrightarrow{R_2 + 4R_1 \to R_2} E_{21}(4) = \begin{bmatrix} 1 & 0 \\ 4 & 1 \end{bmatrix} \quad \text{(adds 4 times row 1 to row 2)}
+        \]
+    \end{enumerate}
+    
+    \textbf{Key Principle:} Performing elementary row operation on matrix $A$ is equivalent to \textbf{left-multiplying} $A$ by the corresponding elementary matrix:
+    \[
+    \text{Row operation on } A \iff EA
+    \]
+    where $E$ is the elementary matrix representing that operation.
+    
+    \textbf{Fundamental Properties:}
+    \[
+    \begin{aligned}
+        &\text{(1)} \quad \text{Every elementary matrix is \textbf{invertible}} && \\[8pt]
+        &\text{(2)} \quad \text{The inverse of an elementary matrix is also elementary} && \\[8pt]
+        &\text{(3)} \quad \det(E) \neq 0 \text{ for all elementary matrices} && \text{(Always invertible)} \\[8pt]
+        &\text{(4)} \quad (EA)^T = A^T E^T && \text{(Transpose relation)}
+    \end{aligned}
+    \]
+    
+    \textbf{Inverses of Elementary Matrices:}
+    \[
+    \begin{aligned}
+        &\text{Type I:} \quad E_{ij}^{-1} = E_{ij} && \text{(Self-inverse: swap twice returns original)} \\[8pt]
+        &\text{Type II:} \quad E_i(c)^{-1} = E_i(1/c) && \text{(Scale by reciprocal)} \\[8pt]
+        &\text{Type III:} \quad E_{ij}(c)^{-1} = E_{ij}(-c) && \text{(Negate the coefficient)}
+    \end{aligned}
+    \]
+    
+    \textbf{Determinants of Elementary Matrices:}
+    \[
+    \begin{aligned}
+        &\text{Type I:} \quad \det(E_{ij}) = -1 && \text{(Row swap changes sign)} \\[8pt]
+        &\text{Type II:} \quad \det(E_i(c)) = c && \text{(Scaling factor)} \\[8pt]
+        &\text{Type III:} \quad \det(E_{ij}(c)) = 1 && \text{(No change)}
+    \end{aligned}
+    \]
+    These correspond exactly to how elementary row operations affect determinants! \\
+    
+    \textbf{Geometric Interpretation:}
+    \begin{itemize}
+        \item \textbf{Type I:} Reflection across a hyperplane (swaps two basis vectors)
+        \item \textbf{Type II:} Scaling along one coordinate axis
+        \item \textbf{Type III:} Shear transformation (preserves volume, hence $\det = 1$)
+    \end{itemize}
+    
+    Every invertible linear transformation can be decomposed into these three basic operations!
+\end{tcolorbox}
+
+
+
+\subsection{Block Matrices}
+\begin{tcolorbox}[breakable]
+    A \textbf{block matrix} (or \textbf{partitioned matrix}) is a matrix divided into submatrices called \textbf{blocks}:
+    \[
+    M = \begin{bmatrix}
+        A & B \\
+        C & D
+    \end{bmatrix}
+    \]
+    where $A \in \mathbb{R}^{p \times q}$, $B \in \mathbb{R}^{p \times r}$, $C \in \mathbb{R}^{s \times q}$, $D \in \mathbb{R}^{s \times r}$, and $M \in \mathbb{R}^{(p+s) \times (q+r)}$.
+    
+    \textbf{General Form:}
+    \[
+    M = \begin{bmatrix}
+        A_{11} & A_{12} & \cdots & A_{1n} \\
+        A_{21} & A_{22} & \cdots & A_{2n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        A_{m1} & A_{m2} & \cdots & A_{mn}
+    \end{bmatrix}
+    \]
+    where each $A_{ij}$ is a submatrix (block).
+    
+    \textbf{Block Matrix Operations:}
+    
+    Operations on block matrices follow the same rules as scalar matrices, \textbf{provided dimensions are compatible}.
+    
+    \begin{enumerate}
+        \item \textbf{Block Addition:}
+        \[
+        \begin{bmatrix} A & B \\ C & D \end{bmatrix} + \begin{bmatrix} E & F \\ G & H \end{bmatrix} = \begin{bmatrix} A+E & B+F \\ C+G & D+H \end{bmatrix}
+        \]
+        Requirement: Corresponding blocks must have same dimensions.
+        
+        \item \textbf{Block Scalar Multiplication:}
+        \[
+        c\begin{bmatrix} A & B \\ C & D \end{bmatrix} = \begin{bmatrix} cA & cB \\ cC & cD \end{bmatrix}
+        \]
+        
+        \item \textbf{Block Matrix Multiplication:}
+        \[
+        \begin{bmatrix} A & B \\ C & D \end{bmatrix} \begin{bmatrix} E & F \\ G & H \end{bmatrix} = \begin{bmatrix} AE+BG & AF+BH \\ CE+DG & CF+DH \end{bmatrix}
+        \]
+        Requirement: Inner dimensions must match ($A \in \mathbb{R}^{p \times q}$, $E \in \mathbb{R}^{q \times r}$, etc.).
+        
+        This follows the same "row-times-column" pattern as scalar matrix multiplication!
+        
+        \item \textbf{Block Transpose:}
+        \[
+        \begin{bmatrix} A & B \\ C & D \end{bmatrix}^T = \begin{bmatrix} A^T & C^T \\ B^T & D^T \end{bmatrix}
+        \]
+        Blocks are transposed \textbf{and} positions are transposed.
+    \end{enumerate}
 \end{tcolorbox}
 
 \end{document}
